@@ -971,7 +971,7 @@ void CF::FilterNoSplit(const int Type, double & time, const int ItNum, const flo
             return;
         }
     }
-    register float d, d_abs;
+    float d, d_abs;
     int start_row_set[4]={1, 2, 1, 2};
     int start_col_set[4]={1, 2, 2, 1};
     const int M = imgF.rows;
@@ -1716,7 +1716,7 @@ inline float CF::SignedMin(float * const dist)
     unsigned char index2 = 3;
 #if defined(_WIN32) || defined(WIN32)
     
-    register int tmp[4];
+    int tmp[4];
     tmp[0] = (int&)(dist[0]) & 0x7FFFFFFF;
     tmp[1] = (int&)(dist[1]) & 0x7FFFFFFF;
     tmp[2] = (int&)(dist[2]) & 0x7FFFFFFF;
@@ -1741,8 +1741,8 @@ inline float CF::SignedMin_noSplit(const float * const dist)
 {
     unsigned char index = 0;
 #if defined(_WIN32) || defined(WIN32)
-    register int absMin = (int&)(dist[0]) & 0x7FFFFFFF;
-    register int tmp = (int&)(dist[1]) & 0x7FFFFFFF;
+    int absMin = (int&)(dist[0]) & 0x7FFFFFFF;
+    int tmp = (int&)(dist[1]) & 0x7FFFFFFF;
     if (tmp<absMin)
     {
         absMin = tmp;
@@ -1760,7 +1760,7 @@ inline float CF::SignedMin_noSplit(const float * const dist)
     return dist[index];
     
 #else
-    register float tmp[4];
+    float tmp[4];
     tmp[0] = fabsf(dist[0]);
     tmp[1] = fabsf(dist[1]);
     tmp[2] = fabsf(dist[2]);
@@ -1893,9 +1893,9 @@ void CF::Poisson(const Mat & rhs, Mat & result)
 inline void CF::GC_one(float* __restrict p, const float* __restrict p_right, const float* __restrict p_down, 
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
-    register float dist[4];
-    register float scaled_stepsize = stepsize/3;
-    register float tmp, min_value, com_one, com_two, min_value2;
+    float dist[4];
+    float scaled_stepsize = stepsize/3;
+    float tmp, min_value, com_one, com_two, min_value2;
     for (int j = 1; j < N_half; ++j)
      {
         tmp = 2*p[j];
@@ -1926,9 +1926,9 @@ inline void CF::GC_one(float* __restrict p, const float* __restrict p_right, con
 inline void CF::GC_two(float* __restrict p, const float* __restrict p_right, const float* __restrict p_down, 
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
-    register float dist[4];
-    register float scaled_stepsize = stepsize/3;
-    register float tmp, min_value, min_value2, com_one, com_two;
+    float dist[4];
+    float scaled_stepsize = stepsize/3;
+    float tmp, min_value, min_value2, com_one, com_two;
     for (int j = 0; j < N_half-1; ++j)
      {
         tmp = 2*p[j];
@@ -1958,9 +1958,9 @@ inline void CF::GC_two(float* __restrict p, const float* __restrict p_right, con
 inline void CF::MC_one(float* __restrict p, const float* __restrict p_right, const float* __restrict p_down, 
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
-    register float dist[8];
-    register float scaled_stepsize = stepsize/8;
-    register float min_value;
+    float dist[8];
+    float scaled_stepsize = stepsize/8;
+    float min_value;
     for (int j = 1; j < N_half; ++j)
      {
          
@@ -1982,9 +1982,9 @@ inline void CF::MC_one(float* __restrict p, const float* __restrict p_right, con
 inline void CF::MC_two(float* __restrict p, const float* __restrict p_right, const float* __restrict p_down, 
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
-    register float dist[8];
-    register float scaled_stepsize = stepsize/8;
-    register float min_value;
+    float dist[8];
+    float scaled_stepsize = stepsize/8;
+    float min_value;
     for (int j = 0; j < N_half-1; ++j)
     {
          
@@ -2007,11 +2007,11 @@ inline void CF::LS_one(float* __restrict p, const float* __restrict p_right, con
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
     //one is for BT and WC, two is for BC and WT
-    register float dist[2];
+    float dist[2];
     // if use 2, the scheme excludes the central pixel
     // if use 3, the scheme includes the central pixel
-    register float scaled_stepsize = stepsize/3;
-    register float tmp;
+    float scaled_stepsize = stepsize/3;
+    float tmp;
     for (int j = 1; j < N_half; ++j)
     {
          
@@ -2033,11 +2033,11 @@ inline void CF::LS_two(float* __restrict p, const float* __restrict p_right, con
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
     //one is for BT and WC, two is for BC and WT
-    register float dist[2];
+    float dist[2];
     // if use 2, the scheme excludes the central pixel
     // if use 3, the scheme includes the central pixel
-    register float scaled_stepsize = stepsize/3;
-    register float tmp;
+    float scaled_stepsize = stepsize/3;
+    float tmp;
     for (int j = 0; j < N_half-1; ++j)
     {
         tmp = p[j]*2.0f;
@@ -2057,11 +2057,11 @@ inline void CF::LS_two(float* __restrict p, const float* __restrict p_right, con
 inline void CF::TV_one(float* __restrict p, const float* __restrict p_right, const float* __restrict p_down, 
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
-    register float dist[8], dist2[4];
+    float dist[8], dist2[4];
     // if use 6, the scheme includes central pixel;
     // if use 5, the scheme does not include central pixel (my PhD thesis uses five)
-    register float scaled_stepsize = stepsize/5;
-    register float scaledP, min_value, min_value2;
+    float scaled_stepsize = stepsize/5;
+    float scaledP, min_value, min_value2;
     for (int j = 1; j < N_half; ++j)
      {
         //temp var
@@ -2092,11 +2092,11 @@ inline void CF::TV_one(float* __restrict p, const float* __restrict p_right, con
 inline void CF::TV_two(float* __restrict p, const float* __restrict p_right, const float* __restrict p_down, 
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
-    register float dist[8], tmp[4];
+    float dist[8], tmp[4];
     // if use 6, the scheme includes central pixel;
     // if use 5, the scheme does not include central pixel (my PhD thesis uses five) 
-    register float scaled_stepsize = stepsize/5;
-    register float scaledP, min_value, min_value2;
+    float scaled_stepsize = stepsize/5;
+    float scaledP, min_value, min_value2;
     for (int j = 0; j < N_half-1; ++j)
      {
         scaledP = p[j]*5;
@@ -2126,8 +2126,8 @@ inline void CF::TV_two(float* __restrict p, const float* __restrict p_right, con
 inline void CF::DC_one(float* __restrict p, const float* __restrict p_right, const float* __restrict p_down, 
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
-    register float dist[4];
-    register float weight = -0.225603f;
+    float dist[4];
+    float weight = -0.225603f;
     
     for (int j = 1; j < N_half; ++j)
      {
@@ -2151,8 +2151,8 @@ inline void CF::DC_one(float* __restrict p, const float* __restrict p_right, con
 inline void CF::DC_two(float* __restrict p, const float* __restrict p_right, const float* __restrict p_down, 
     const float * __restrict p_rd, const float* __restrict p_pre, const float* __restrict p_Corner, const float& stepsize)
 {
-    register float dist[4];
-    register float weight = -0.225603f;
+    float dist[4];
+    float weight = -0.225603f;
 
     for (int j = 0; j < N_half-1; ++j)
      {
@@ -2180,8 +2180,8 @@ inline void CF::DC_two(float* __restrict p, const float* __restrict p_right, con
 inline float CF::Scheme_GC(int i, const float * __restrict p_pre, const float * __restrict p, 
                             const float * __restrict p_nex, const float * p_curv)
 {
-    register float dist[4];
-    register float tmp, min_value, min_value2;
+    float dist[4];
+    float tmp, min_value, min_value2;
     tmp = -2*p[i];
     //specify the curvature if provided
     if (p_curv != NULL) tmp = -2*(p[i] + p_curv[i]);
@@ -2213,8 +2213,8 @@ inline float CF::Scheme_MC(int i, const float * __restrict p_pre, const float * 
     //       c   d
     // return (2.5(a+c)+5*e)-b-d)/8.0;
 
-    register float dist[4];
-    register float tmp, com_one, com_two, min_value;
+    float dist[4];
+    float tmp, com_one, com_two, min_value;
     tmp = 8.0f*p[i];
     //specify the curvature if provided
     if (p_curv != NULL) tmp = 8*(p[i] + p_curv[i]);
@@ -2240,8 +2240,8 @@ inline float CF::Scheme_LS(int i, const float * __restrict p_pre, const float * 
     //       I   e               -1 0                   -1  0
     //       c   d              1/2 0                       1/2
 
-    register float dist;
-    register float tmp, min_value;
+    float dist;
+    float tmp, min_value;
     tmp = 2.0f*p[i];
     //specify the curvature if provided
     if (p_curv != NULL) tmp = 2*(p[i] + p_curv[i]);
@@ -2266,9 +2266,9 @@ inline float CF::Scheme_TV(int i, const float * __restrict p_pre, const float * 
     //       I   e
     //       c   d
     // return (a+b+c+d+e)/5.0;
-    register float dist[4], tmp[4];
+    float dist[4], tmp[4];
     //old fashion, need 5*8 times plus or minus
-    register float scaledP, min_value, min_value2;
+    float scaledP, min_value, min_value2;
     scaledP = 5*p[i];
     //specify the curvature if provided
     if (p_curv != NULL) scaledP = 5*(p[i] + p_curv[i]);
